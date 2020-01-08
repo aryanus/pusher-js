@@ -262,7 +262,7 @@ describe("Pusher", function() {
 
   describe("#connect", function() {
     it("should call connect on connection manager", function() {
-      var pusher = new Pusher("foo", { disableStats: true });
+      var pusher = new Pusher("foo");
       pusher.connect();
       expect(pusher.connection.connect).toHaveBeenCalledWith();
     });
@@ -270,14 +270,14 @@ describe("Pusher", function() {
 
   describe("after connecting", function() {
     beforeEach(function() {
-      pusher = new Pusher("foo", { disableStats: true });
+      pusher = new Pusher("foo");
       pusher.connect();
       pusher.connection.state = "connected";
       pusher.connection.emit("connected");
     });
 
     it("should subscribe to all channels", function() {
-      var pusher = new Pusher("foo", { disableStats: true });
+      var pusher = new Pusher("foo");
 
       var subscribedChannels = {
         "channel1": pusher.subscribe("channel1"),
@@ -357,7 +357,7 @@ describe("Pusher", function() {
     var pusher;
 
     beforeEach(function() {
-      pusher = new Pusher("foo", { disableStats: true });
+      pusher = new Pusher("foo");
     });
 
     it("should pass events to their channels", function() {
@@ -452,7 +452,7 @@ describe("Pusher", function() {
 
   describe("after disconnecting", function() {
     it("should disconnect channels", function() {
-      var pusher = new Pusher("foo", { disableStats: true });
+      var pusher = new Pusher("foo");
       var channel1 = pusher.subscribe("channel1");
       var channel2 = pusher.subscribe("channel2");
 
@@ -466,7 +466,7 @@ describe("Pusher", function() {
 
   describe("on error", function() {
     it("should log a warning to console", function() {
-      var pusher = new Pusher("foo", { disableStats: true });
+      var pusher = new Pusher("foo");
 
       spyOn(Logger, "warn");
       pusher.connection.emit("error", "something");
