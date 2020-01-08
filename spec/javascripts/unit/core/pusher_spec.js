@@ -484,10 +484,10 @@ describe("Pusher", function() {
       timelineSender = Mocks.getTimelineSender();
       spyOn(Factory, "createTimelineSender").andReturn(timelineSender);
 
-      pusher = new Pusher("foo");
+      pusher = new Pusher("foo", { enableStats: true });
     });
 
-    it("should be sent to stats.pusher.com by default", function() {
+    it("should be sent to stats.pusher.com", function() {
       expect(Factory.createTimelineSender.calls.length).toEqual(1);
       expect(Factory.createTimelineSender).toHaveBeenCalledWith(
         pusher.timeline, { host: "stats.pusher.com", path: "/timeline/v2/" + timelineTransport }
@@ -496,15 +496,16 @@ describe("Pusher", function() {
 
     it("should be sent to a hostname specified in constructor options", function() {
       var pusher = new Pusher("foo", {
-        statsHost: "example.com"
+        statsHost: "example.com",
+        enableStats: true,
       });
       expect(Factory.createTimelineSender).toHaveBeenCalledWith(
         pusher.timeline, { host: "example.com", path: "/timeline/v2/" + timelineTransport }
       );
     });
 
-    it("should not be sent if disableStats option is passed", function() {
-      var pusher = new Pusher("foo", { disableStats: true });
+    it("should not be sent by defaul", function() {
+      var pusher = new Pusher("foo");
       pusher.connect();
       pusher.connection.options.timeline.info({});
       jasmine.Clock.tick(1000000);
